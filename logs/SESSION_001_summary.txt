@@ -1,0 +1,12 @@
+===== SESSION SUMMARY =====
+Studio ID   : S01
+Session ID  : SESSION_001
+
+Total Duration     : 39 sec
+
+=== BEHAVIOR ===
+Face Presence      : 100.00%
+Facing Camera      : 69.23%
+Head Down          : 23.08%
+Not Facing         : 7.69%
+Off Frame          : 0.00%
