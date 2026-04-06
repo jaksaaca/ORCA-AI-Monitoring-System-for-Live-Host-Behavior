@@ -2,11 +2,11 @@
 Studio ID   : S01
 Session ID  : SESSION_001
 
-Total Duration     : 39 sec
+Total Duration     : 61 sec
 
 === BEHAVIOR ===
 Face Presence      : 100.00%
-Facing Camera      : 69.23%
-Head Down          : 23.08%
-Not Facing         : 7.69%
+Facing Camera      : 49.18%
+Head Down          : 36.07%
+Not Facing         : 14.75%
 Off Frame          : 0.00%
