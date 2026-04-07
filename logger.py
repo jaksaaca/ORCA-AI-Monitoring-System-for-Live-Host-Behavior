@@ -1,29 +1,41 @@
 import csv
 import os
 from config import STUDIO_ID, SESSION_ID
-from utils.time_utils import get_iso_time
+from utils.time_utils import get_iso_time, get_readable_time
 
 class Logger:
     def __init__(self, filename):
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-
         self.filename = filename
-        self.file = open(filename, "w", newline="", buffering=1)
+
+        # simpan waktu mulai
+        self.start_time = get_readable_time()
+
+        # handle folder
+        folder = os.path.dirname(filename)
+        if folder:
+            os.makedirs(folder, exist_ok=True)
+
+        # cek file sudah ada
+        file_exists = os.path.isfile(filename)
+
+        # append mode (biar numpuk)
+        self.file = open(filename, "a", newline="", buffering=1)
         self.writer = csv.writer(self.file)
 
-        # Header CSV
-        self.writer.writerow([
-            "timestamp",
-            "studio_id",
-            "session_id",
-            "face_detected",
-            "pitch",
-            "yaw",
-            "roll",
-            "status"
-        ])
+        # header hanya sekali
+        if not file_exists:
+            self.writer.writerow([
+                "timestamp",
+                "studio_id",
+                "session_id",
+                "face_detected",
+                "pitch",
+                "yaw",
+                "roll",
+                "status"
+            ])
 
-        # Counter summary
+        # counter
         self.total = 0
         self.face_count = 0
         self.facing_count = 0
@@ -32,18 +44,22 @@ class Logger:
         self.not_facing_count = 0
 
     def log(self, face, pitch, yaw, roll, status):
+        pitch = round(pitch, 2) if pitch is not None else 0
+        yaw = round(yaw, 2) if yaw is not None else 0
+        roll = round(roll, 2) if roll is not None else 0
+
         self.writer.writerow([
-            get_iso_time(),
+            get_iso_time(),  # detail tetap ISO (bagus buat data)
             STUDIO_ID,
             SESSION_ID,
             face,
-            round(pitch, 2),
-            round(yaw, 2),
-            round(roll, 2),
+            pitch,
+            yaw,
+            roll,
             status
         ])
 
-        # Update counter
+        # update counter
         self.total += 1
 
         if face:
@@ -51,13 +67,10 @@ class Logger:
 
         if status == "facing_camera":
             self.facing_count += 1
-
         elif status == "head_down":
             self.head_down_count += 1
-
         elif status == "off_frame":
             self.off_frame_count += 1
-
         elif status == "not_facing_camera":
             self.not_facing_count += 1
 
@@ -66,7 +79,11 @@ class Logger:
             self.file.close()
             return
 
-        # Hitung persen
+        # waktu selesai
+        end_time = get_readable_time()
+        session_time = f"{self.start_time} - {end_time}"
+
+        # hitung persen
         face_pct = (self.face_count / self.total) * 100
         facing_pct = (self.facing_count / self.total) * 100
         head_down_pct = (self.head_down_count / self.total) * 100
@@ -76,22 +93,58 @@ class Logger:
         self.file.close()
 
         # =========================
-        # 🔥 WRITE SUMMARY TXT
+        # 🔥 GLOBAL SUMMARY CSV
         # =========================
-        summary_path = self.filename.replace(".csv", "_summary.txt")
+        summary_file = "logs/summary.csv"
+        file_exists = os.path.isfile(summary_file)
 
-        with open(summary_path, "w") as f:
-            f.write("===== SESSION SUMMARY =====\n")
-            f.write(f"Studio ID   : {STUDIO_ID}\n")
-            f.write(f"Session ID  : {SESSION_ID}\n\n")
+        with open(summary_file, "a", newline="") as f:
+            writer = csv.writer(f)
 
-            f.write(f"Total Duration     : {self.total} sec\n\n")
+            if not file_exists:
+                writer.writerow([
+                    "session_time",
+                    "studio_id",
+                    "session_id",
+                    "duration_frames",
+                    "face_pct",
+                    "facing_pct",
+                    "head_down_pct",
+                    "not_facing_pct",
+                    "off_frame_pct"
+                ])
+
+            writer.writerow([
+                session_time,
+                STUDIO_ID,
+                SESSION_ID,
+                self.total,
+                round(face_pct, 2),
+                round(facing_pct, 2),
+                round(head_down_pct, 2),
+                round(not_facing_pct, 2),
+                round(off_frame_pct, 2)
+            ])
+
+        print("[SUMMARY CSV UPDATED] summary.csv")
+
+        # =========================
+        # 🔥 SUMMARY TXT (READABLE)
+        # =========================
+        txt_file = "logs/summary.txt"
+        with open(txt_file, "a") as f:
+            f.write("===== SESSION =====\n")
+            f.write(f"Time           : {session_time}\n")
+            f.write(f"Studio ID      : {STUDIO_ID}\n")
+            f.write(f"Session ID     : {SESSION_ID}\n")
+            f.write(f"Duration       : {self.total} sec\n\n")
 
             f.write("=== BEHAVIOR ===\n")
-            f.write(f"Face Presence      : {face_pct:.2f}%\n")
-            f.write(f"Facing Camera      : {facing_pct:.2f}%\n")
-            f.write(f"Head Down          : {head_down_pct:.2f}%\n")
-            f.write(f"Not Facing         : {not_facing_pct:.2f}%\n")
-            f.write(f"Off Frame          : {off_frame_pct:.2f}%\n")
+            f.write(f"Face Presence  : {face_pct:.2f}%\n")
+            f.write(f"Facing Camera  : {facing_pct:.2f}%\n")
+            f.write(f"Head Down      : {head_down_pct:.2f}%\n")
+            f.write(f"Not Facing     : {not_facing_pct:.2f}%\n")
+            f.write(f"Off Frame      : {off_frame_pct:.2f}%\n")
+            f.write("\n============================\n\n")
 
-        print(f"[SUMMARY SAVED] {summary_path}")
+        print("[SUMMARY TXT UPDATED] summary.txt")

@@ -1,0 +1,45 @@
+===== SESSION =====
+Time           : 13.17 07/04/2026 - 13.18 07/04/2026
+Studio ID      : S01
+Session ID     : SESSION_001
+Duration       : 23 frames
+
+=== BEHAVIOR ===
+Face Presence  : 100.00%
+Facing Camera  : 73.91%
+Head Down      : 13.04%
+Not Facing     : 13.04%
+Off Frame      : 0.00%
+
+============================
+
+===== SESSION =====
+Time           : 13.19 07/04/2026 - 13.19 07/04/2026
+Studio ID      : S01
+Session ID     : SESSION_001
+Duration       : 7 sec
+
+=== BEHAVIOR ===
+Face Presence  : 100.00%
+Facing Camera  : 85.71%
+Head Down      : 0.00%
+Not Facing     : 14.29%
+Off Frame      : 0.00%
+
+============================
+
+===== SESSION =====
+Time           : 16.41 07/04/2026 - 16.44 07/04/2026
+Studio ID      : S01
+Session ID     : SESSION_001
+Duration       : 95 sec
+
+=== BEHAVIOR ===
+Face Presence  : 100.00%
+Facing Camera  : 74.74%
+Head Down      : 23.16%
+Not Facing     : 2.11%
+Off Frame      : 0.00%
+
+============================
+

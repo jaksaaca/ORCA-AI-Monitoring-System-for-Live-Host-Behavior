@@ -1,6 +1,9 @@
 import time
 from datetime import datetime
 
+def get_readable_time():
+    return datetime.now().strftime("%H.%M %d/%m/%Y")
+
 def get_unix_timestamp():
     return int(time.time())
 

@@ -1,0 +1,4 @@
+session_time,studio_id,session_id,duration_frames,face_pct,facing_pct,head_down_pct,not_facing_pct,off_frame_pct
+13.17 07/04/2026 - 13.18 07/04/2026,S01,SESSION_001,23,100.0,73.91,13.04,13.04,0.0
+13.19 07/04/2026 - 13.19 07/04/2026,S01,SESSION_001,7,100.0,85.71,0.0,14.29,0.0
+16.41 07/04/2026 - 16.44 07/04/2026,S01,SESSION_001,95,100.0,74.74,23.16,2.11,0.0
