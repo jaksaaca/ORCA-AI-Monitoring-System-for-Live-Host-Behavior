@@ -2,10 +2,17 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
+
 class HeadPoseEstimator:
     def __init__(self):
         self.mp_face_mesh = mp.solutions.face_mesh
-        self.mesh = self.mp_face_mesh.FaceMesh(refine_landmarks=True)
+        self.mesh = self.mp_face_mesh.FaceMesh(
+            static_image_mode=False,
+            max_num_faces=1,
+            refine_landmarks=True,
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5
+        )
 
     def get_pose(self, frame):
         h, w, _ = frame.shape
@@ -15,40 +22,33 @@ class HeadPoseEstimator:
         if not result.multi_face_landmarks:
             return None
 
-        face = result.multi_face_landmarks[0]
+        face = result.multi_face_landmarks[0].landmark
 
-        # titik penting
-        idx = [33, 263, 1, 61, 291, 199]
+        def pt(i):
+            return np.array([face[i].x * w, face[i].y * h], dtype=np.float32)
 
-        face_2d = []
-        face_3d = []
+        left_eye = pt(33)
+        right_eye = pt(263)
+        nose = pt(1)
+        chin = pt(152)
 
-        for i in idx:
-            lm = face.landmark[i]
-            x, y = int(lm.x * w), int(lm.y * h)
+        eye_center = (left_eye + right_eye) / 2.0
 
-            face_2d.append([x, y])
-            face_3d.append([x, y, lm.z])
+        face_width = np.linalg.norm(right_eye - left_eye)
+        face_height = np.linalg.norm(chin - eye_center)
 
-        face_2d = np.array(face_2d, dtype=np.float64)
-        face_3d = np.array(face_3d, dtype=np.float64)
+        if face_width < 1 or face_height < 1:
+            return None
 
-        focal_length = w
-        cam_matrix = np.array([
-            [focal_length, 0, w/2],
-            [0, focal_length, h/2],
-            [0, 0, 1]
-        ])
+        # yaw: hidung geser kiri/kanan dari tengah mata
+        yaw = ((nose[0] - eye_center[0]) / face_width) * 100.0
 
-        dist_matrix = np.zeros((4, 1))
+        # pitch: makin besar = makin turun
+        pitch = ((nose[1] - eye_center[1]) / face_height) * 100.0
 
-        success, rot_vec, trans_vec = cv2.solvePnP(
-            face_3d, face_2d, cam_matrix, dist_matrix
-        )
+        # roll: kemiringan garis mata
+        dy = right_eye[1] - left_eye[1]
+        dx = right_eye[0] - left_eye[0]
+        roll = float(np.degrees(np.arctan2(dy, dx)))
 
-        rmat, _ = cv2.Rodrigues(rot_vec)
-        angles, _, _, _, _, _ = cv2.RQDecomp3x3(rmat)
-
-        pitch, yaw, roll = angles
-
-        return pitch * 360, yaw * 360, roll * 360
+        return float(pitch), float(yaw), float(roll)

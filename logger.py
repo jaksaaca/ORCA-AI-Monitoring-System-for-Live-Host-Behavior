@@ -3,26 +3,22 @@ import os
 from config import STUDIO_ID, SESSION_ID
 from utils.time_utils import get_iso_time, get_readable_time
 
+
 class Logger:
     def __init__(self, filename):
         self.filename = filename
 
-        # simpan waktu mulai
         self.start_time = get_readable_time()
 
-        # handle folder
         folder = os.path.dirname(filename)
         if folder:
             os.makedirs(folder, exist_ok=True)
 
-        # cek file sudah ada
         file_exists = os.path.isfile(filename)
 
-        # append mode (biar numpuk)
         self.file = open(filename, "a", newline="", buffering=1)
         self.writer = csv.writer(self.file)
 
-        # header hanya sekali
         if not file_exists:
             self.writer.writerow([
                 "timestamp",
@@ -35,7 +31,6 @@ class Logger:
                 "status"
             ])
 
-        # counter
         self.total = 0
         self.face_count = 0
         self.facing_count = 0
@@ -49,7 +44,7 @@ class Logger:
         roll = round(roll, 2) if roll is not None else 0
 
         self.writer.writerow([
-            get_iso_time(),  # detail tetap ISO (bagus buat data)
+            get_iso_time(),
             STUDIO_ID,
             SESSION_ID,
             face,
@@ -59,7 +54,6 @@ class Logger:
             status
         ])
 
-        # update counter
         self.total += 1
 
         if face:
@@ -79,11 +73,9 @@ class Logger:
             self.file.close()
             return
 
-        # waktu selesai
         end_time = get_readable_time()
         session_time = f"{self.start_time} - {end_time}"
 
-        # hitung persen
         face_pct = (self.face_count / self.total) * 100
         facing_pct = (self.facing_count / self.total) * 100
         head_down_pct = (self.head_down_count / self.total) * 100
@@ -92,9 +84,6 @@ class Logger:
 
         self.file.close()
 
-        # =========================
-        # 🔥 GLOBAL SUMMARY CSV
-        # =========================
         summary_file = "logs/summary.csv"
         file_exists = os.path.isfile(summary_file)
 
@@ -128,9 +117,6 @@ class Logger:
 
         print("[SUMMARY CSV UPDATED] summary.csv")
 
-        # =========================
-        # 🔥 SUMMARY TXT (READABLE)
-        # =========================
         txt_file = "logs/summary.txt"
         with open(txt_file, "a") as f:
             f.write("===== SESSION =====\n")

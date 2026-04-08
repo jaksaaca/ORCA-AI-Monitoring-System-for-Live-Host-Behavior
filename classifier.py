@@ -1,5 +1,6 @@
 import time
 
+
 class BehaviorClassifier:
     def __init__(self, config):
         self.cfg = config
@@ -22,16 +23,12 @@ class BehaviorClassifier:
 
         # HEAD DOWN
         if face_detected:
-
-            if pitch < -self.cfg.PITCH_DOWN_STRICT:
+            if pitch > self.cfg.PITCH_DOWN_STRICT:
                 self.head_down_counter += 2
-
-            elif pitch < -self.cfg.PITCH_DOWN_START:
+            elif pitch > self.cfg.PITCH_DOWN_START:
                 self.head_down_counter += 1
-
             else:
                 self.head_down_counter = max(0, self.head_down_counter - 1)
-
         else:
             self.head_down_counter = 0
 
