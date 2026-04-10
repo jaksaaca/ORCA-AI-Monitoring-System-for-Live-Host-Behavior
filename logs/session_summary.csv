@@ -1,6 +1,2 @@
 date,day,live_start,live_end,live_time_range,host_name,studio_id,location,total_duration_seconds,face_detected_seconds,face_detected_pct,facing_camera_seconds,facing_camera_pct,head_down_seconds,head_down_pct,not_facing_seconds,not_facing_pct,off_frame_seconds,off_frame_pct
-10 Apr 2026,Friday,21.00,21.00,21.00 - 21.00,JAKSA,S01,Jakarta,16,8,50.0,4,25.0,1,6.25,2,12.5,7,43.75
-10 Apr 2026,Friday,21.01,21.02,21.01 - 21.02,JAKSA,S04,Jakarta,15,14,93.33,7,46.67,4,26.67,3,20.0,0,0.0
-10 Apr 2026,Friday,21.21,21.22,21.21 - 21.22,JAKSA,S01,Jakarta,65,65,100.0,31,47.69,28,43.08,6,9.23,0,0.0
-10 Apr 2026,Friday,21.25,21.28,21.25 - 21.28,BUIG7,S01,Jakarta,157,27,17.2,34,21.66,0,0.0,0,0.0,94,59.87
-10 Apr 2026,Friday,21.29,21.31,21.29 - 21.31,QDQD,S01,Jakarta,68,64,94.12,40,58.82,10,14.71,13,19.12,3,4.41
+10 Apr 2026,Friday,22.45,22.46,22.45 - 22.46,sd,S01,Jakarta,17,17,100.0,9,52.94,4,23.53,4,23.53,0,0.0

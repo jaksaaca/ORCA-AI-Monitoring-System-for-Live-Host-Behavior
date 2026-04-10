@@ -4,7 +4,7 @@ SESSION_ID = "SESSION_001"
 HOST_NAME = "Unknown Host"
 
 # Camera
-CAMERA_INDEX = 0
+CAMERA_INDEX = 1
 
 # FPS control
 PROCESS_EVERY_N_FRAMES = 2

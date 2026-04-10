@@ -348,6 +348,8 @@ STUDIO_ID = session_info["studio_id"]
 LOCATION = session_info["location"]
 
 cap = cv2.VideoCapture(config.CAMERA_INDEX)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1280)
 
 if not cap.isOpened():
     messagebox.showerror("Camera Error", "Kamera default tidak bisa dibuka. Cek config.CAMERA_INDEX.")
@@ -443,9 +445,9 @@ while True:
     draw_info_row(frame, "Tempat", LOCATION, 220, 112)
 
     action_x1 = 20
-    action_y1 = h - 78
+    action_y1 = 180 
     action_x2 = min(w - 20, 430)
-    action_y2 = h - 20
+    action_y2 = 240
 
     draw_card(frame, action_x1, action_y1, action_x2, action_y2)
 
