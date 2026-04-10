@@ -506,7 +506,14 @@ while True:
     if cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
         break
 
-    cv2.waitKey(1)
+    key = cv2.waitKey(1) & 0xFF
+
+    if key in (ord('s'), ord('S')):
+        is_running = True
+    elif key in (ord('p'), ord('P')):
+        is_running = False
+    elif key in (ord('q'), ord('Q')):
+        should_quit = True
 
 cap.release()
 logger.close()
