@@ -1,0 +1,5 @@
+host_name,location,studio_id,live_count,total_duration_seconds,face_detected_seconds,face_detected_pct,facing_camera_seconds,facing_camera_pct,head_down_seconds,head_down_pct,not_facing_seconds,not_facing_pct,off_frame_seconds,off_frame_pct
+JAKSA,Jakarta,S01,2,81,73,90.12,35,43.21,29,35.8,8,9.88,7,8.64
+JAKSA,Jakarta,S04,1,15,14,93.33,7,46.67,4,26.67,3,20.0,0,0.0
+BUIG7,Jakarta,S01,1,157,27,17.2,34,21.66,0,0.0,0,0.0,94,59.87
+QDQD,Jakarta,S01,1,68,64,94.12,40,58.82,10,14.71,13,19.12,3,4.41
