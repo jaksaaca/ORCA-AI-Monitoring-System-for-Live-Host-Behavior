@@ -1,2 +1,3 @@
 host_name,location,studio_id,live_count,total_duration_seconds,face_detected_seconds,face_detected_pct,facing_camera_seconds,facing_camera_pct,head_down_seconds,head_down_pct,not_facing_seconds,not_facing_pct,off_frame_seconds,off_frame_pct
 sd,Jakarta,S01,1,17,17,100.0,9,52.94,4,23.53,4,23.53,0,0.0
+JAKSA,Jakarta,S01,2,77,77,100.0,35,45.45,27,35.06,15,19.48,0,0.0

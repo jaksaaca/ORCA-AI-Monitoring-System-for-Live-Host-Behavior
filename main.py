@@ -271,6 +271,20 @@ def build_start_form():
     cancel_btn.pack(fill="x")
 
     root.bind("<Return>", lambda event: confirm())
+
+    tk.Label(
+        root,
+        text="© 2026 JAKSA SETIA ALAM",
+        bg="#EAF4FF",
+        fg="#94A3B8",
+        font=("Segoe UI", 9)
+    ).place(
+        relx=0.5,
+        rely=1.0,
+        anchor="s",
+        y=-10
+    )
+
     root.mainloop()
     return result
 
